@@ -1,6 +1,7 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from typing import List, Dict
 import requests
 import json
 
@@ -15,14 +16,14 @@ app.add_middleware(
 )
 
 class ChatRequest(BaseModel):
-    message: str
+    messages: List[Dict[str, str]]  
 
 @app.post("/chat")
 def chat_with_mistral(chat_request: ChatRequest):
     url = "http://localhost:11434/api/chat"
     payload = {
         "model": "mistral",
-        "messages": [{"role": "user", "content": chat_request.message}]
+        "messages": chat_request.messages
     }
 
     response = requests.post(url, json=payload, stream=True)
