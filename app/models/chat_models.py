@@ -8,3 +8,7 @@ class Message(BaseModel):
 class ChatRequest(BaseModel):
     messages: List[Message]
     mode: str = "friendly_ai"
+
+class SaveChatRequest(BaseModel):
+    messages: List[Message]
+
