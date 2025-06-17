@@ -7,8 +7,5 @@ router = APIRouter()
 
 @router.post("/chat")
 async def chat_endpoint(chat_request: ChatRequest):
-    return StreamingResponse(
-        get_mistral_response(chat_request),
-        media_type="text/plain"
-    )
-
+    stream = await get_mistral_response(chat_request)
+    return StreamingResponse(stream, media_type="text/plain")
